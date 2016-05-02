@@ -1,8 +1,7 @@
-<html>
-  <head>
-    <title>{{ title }} - microblog</title>
-  </head>
-  <body>
-      <h1>Hello, {{ user.nickname }}!</h1>
-  </body>
-</html>
+{%extends "auth/base.html" %}
+
+{%block content%}
+
+<h1 class = "well"> Welcome {{ request.username}} </h1>
+
+{%endblock%}

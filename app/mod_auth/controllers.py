@@ -9,7 +9,7 @@ from werkzeug import check_password_hash, generate_password_hash
 from app import db
 
 # Import module forms
-from app.mod_auth.forms import LoginForm
+from app.mod_auth.forms import LoginForm, SignupForm
 
 # Import module models (i.e. User)
 from app.mod_auth.models import User
@@ -25,18 +25,39 @@ def login():
     form = LoginForm(request.form)
 
     # Verify the sign in form
-    if form.validate_on_submit():
+    if request.method == 'POST':
+        if form.validate() == False:
+            return render_template('auth/login.html', form=form)
+        else:
+            session['email'] = form.email.data
+            return redirect(url_for('auth.index'))
+         
+    elif request.method == 'GET':
 
-        user = User.query.filter_by(email=form.email.data).first()
+        return render_template("auth/login.html", form=form)
 
-        if user and check_password_hash(user.password, form.password.data):
+@mod_auth.route('/signup/', methods=['GET', 'POST'])
+def signup():
+    """
+    signup view
+    """
+    form = SignupForm(request.form)
 
-            session['user_id'] = user.id
+    if request.method == 'POST':
+        if form.validate() == False:
+            return render_template('auth/signup.html', form=form)
+        else:   
+            newuser = User(form.firstname.data, form.lastname.data, form.username.data, form.email.data, form.password.data)
+            db.session.add(newuser)
+            db.session.commit()
 
-            flash('Welcome %s' % user.name)
+            session['email'] = newuser.email
+            return redirect(url_for('auth.login'))
 
-            return redirect(url_for('auth.home'))
+    elif request.method == 'GET':
+        return render_template('auth/signup.html', form=form)
 
-        flash('Wrong email or password', 'error-message')
+@mod_auth.route('/index/')
+def index():
+    return render_template('auth/index.html')
 
-    return render_template("auth/login.html", form=form)
