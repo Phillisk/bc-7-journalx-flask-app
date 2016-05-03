@@ -57,6 +57,15 @@ def signup():
     elif request.method == 'GET':
         return render_template('auth/signup.html', form=form)
 
+# @app.route('/logout')
+# def signout():
+
+#     if 'email' not in session:
+#     return redirect(url_for('login'))
+
+#     session.pop('email', None)
+#     return redirect(url_for('home'))
+
 @mod_auth.route('/index/')
 def index():
     return render_template('auth/index.html')

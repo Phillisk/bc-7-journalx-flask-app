@@ -1,46 +1,78 @@
 {% extends "auth/base.html" %}
- 
-{% block content %}
-  <h2>Sign up</h2>
- 
-  {% for message in form.firstname.errors %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-   
-  {% for message in form.lastname.errors %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-   
-  {% for message in form.email.errors %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-   
-  {% for message in form.password.errors %}
-    <div class="flash">{{ message }}</div>
-  {% endfor %}
-   
-  <form action="{{ url_for('auth.signup') }}" method=post>
-    {{ form.hidden_tag() }}
-     
-    {{ form.firstname.label }}
-    {{ form.firstname }}
-     
-    {{ form.lastname.label }}
-    {{ form.lastname }}
-    
-    {{ form.username.label }}
-    {{ form.username }}
-     
-    {{ form.email.label }}
-    {{ form.email }}
-     
-    {{ form.password.label }}
-    {{ form.password }}
 
-    {{ form.confirmpassword.label }}
-    {{ form.confirmpassword }}
-     
-    {{ form.submit }}
-  </form>
-     
-{% endblock %}
+{% block content %}
+
+<div class = "container jumbotron">
+  <div class = "hometitle text-center">
+    <h3> Sign up </h1>
+    </div>
+    <div class = "row">
+      <div class = "col-lg-4"></div>
+      <div class = "col-lg-4">
+        <div class="panel panel-body">
+
+         <form action="{{ url_for('auth.signup') }}" method=post>
+          {{ form.hidden_tag() }}
+
+          <div class = "form-group row">
+            <label class="text-left" for = "{{ form.firstname.name }}">{% for message in form.firstname.errors %}
+              <div class="form1">{{ message }}</div>
+              {% endfor %} {{form.firstname.label}}</label>
+              <input class="form-control" id ="{{ form.firstname.name }}" name = "{{ form.firstname.name }}">
+
+            </div>
+            <div class = "form-group row">
+              <label class="text-left" for = "{{ form.lastname.name }}" >
+
+                {% for message in form.lastname.errors %}
+                <div class="form1">{{ message }}</div>
+                {% endfor %} 
+                {{form.lastname.label}}
+              </label>
+
+              <input class="form-control" id = "{{ form.lastname.name }}" name="{{form.lastname.name}}">
+            </div>
+            <div class = "form-group row">
+              <label for = "{{ form.username.name }}" >
+
+                {% for message in form.username.errors %}
+                <div class="form1">{{ message }}</div>
+                {% endfor %}
+                {{form.username.label}}
+              </label>
+              <input class="form-control" id = "{{ form.username.name }}" name="{{form.username.name}}">
+            </div>
+            <div class = "form-group row">
+              <label class="text-left" for = "{{ form.email.name}}">
+                {% for message in form.email.errors %}
+                <div class="form1">{{ message }}</div>
+                {% endfor %}{{form.email.label}}
+              </label>
+              <input class="form-control" class="text-right" id = "{{ form.email.name }}" name="{{form.email.name}}">
+            </div>
+            <div class = "form-group row">
+              <label for = "{{ form.password.name }}">
+                {% for message in form.password.errors %}
+                <div class="form1">{{ message }}</div>
+                {% endfor %}
+                {{form.password.label}}
+              </label>
+              <input class="form-control" id = "{{ form.password.name }}" name="{{form.password.name}}">
+            </div>
+            <div class = "form-group row">
+              <label for = "{{ form.confirmpassword.name }}">{{form.confirmpassword.label}}
+              </label>
+              <input class="form-control" id = "{{ form.confirmpassword.name }}" name="{{form.confirmpassword.name}}">
+            </div>
+
+            {{ form.submit }}
+          </form>
+        </div>
+      </div>
+      <div class = "col-lg-4"></div>
+
+    </div>
+  </div>
+
+
+  {% endblock %}

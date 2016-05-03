@@ -1,5 +1,5 @@
 import os
-from app import views
+from app.mod_auth import controllers
 import unittest
 import tempfile
 
@@ -7,15 +7,15 @@ class JournalxTestCase(unittest.TestCase):
 
     def setUp(self):
     	#creates a new test client and initializes a new database
-        self.db_fd, views.app.config['DATABASE'] = tempfile.mkstemp()
-        views.app.config['TESTING'] = True
-        self.app = views.app.test_client()
-        views.init_db()
+        self.db_fd, controllers.app.config['DATABASE'] = tempfile.mkstemp()
+        controllers.app.config['TESTING'] = True
+        self.app = controllers.app.test_client()
+        controllers.init_db()
 
     def tearDown(self):
     	#delete the database after the test, we close the file and remove it from the filesystem
         os.close(self.db_fd)
-        os.unlink(views.app.config['DATABASE'])
+        os.unlink(controllers.app.config['DATABASE'])
 
     def test_empty_db(self):
     	#Tests empty database

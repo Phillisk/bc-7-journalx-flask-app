@@ -1,7 +1,24 @@
 {%extends "auth/base.html" %}
 
 {%block content%}
+<div class = "container jumbotron">
+	<div class = "hometitle">
+		<h3> JournalX </h1>
+	</div>
+	<div class = "row">
+		<div class = "col-lg-4"></div>
+		<div class = "col-lg-4">
+			<div class = "centerbtn">
+				<p><a class = "btn btn-primary btn-lg" href="{{ url_for('auth.signup')}}"> Sign Up </a></p>
+				<p><a class = "btn btn-primary btn-lg" href="{{ url_for('auth.login')}}">  Log In </a></p>
+				
+			</div>
+		</div>
+		<div class = "col-lg-4"></div>
+		
+	</div>
+</div>
 
-<h1 class = "well"> Welcome {{ request.username}} </h1>
+
 
 {%endblock%}

@@ -1,4 +1,9 @@
-.content{
-	border: solid;
-	background-color: black;
+body {
+	
+	background-color: lightblue;
+}
+
+.centerbtn{
+	display: table;
+	margin: 0 auto;
 }
