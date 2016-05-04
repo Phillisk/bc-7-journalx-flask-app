@@ -1,24 +1,33 @@
-{%extends "auth/base.html" %}
+{% extends "auth/base.html" %}
 
-{%block content%}
-<div class = "container jumbotron">
-	<div class = "hometitle">
-		<h3> JournalX </h1>
-	</div>
-	<div class = "row">
-		<div class = "col-lg-4"></div>
-		<div class = "col-lg-4">
-			<div class = "centerbtn">
-				<p><a class = "btn btn-primary btn-lg" href="{{ url_for('auth.signup')}}"> Sign Up </a></p>
-				<p><a class = "btn btn-primary btn-lg" href="{{ url_for('auth.login')}}">  Log In </a></p>
-				
-			</div>
-		</div>
-		<div class = "col-lg-4"></div>
-		
-	</div>
-</div>
+{% block content %}
+    <div class="row-fluid">
+        <div class="col-lg-3 left-side">
+        <hr>
+            {% block left_content %}
+                {{ super() }}
+            {% endblock %}
+        </div>
+        <div id="center-side-id" class="col-lg-6 center-side">
+            {% block center_content %}
+                <div class="center-header">
+                    <h1>JournalX</h1>
+                </div>
+                {% if not g.user.is_authenticated %}
+                <div class="row">
+                    <div class="col-lg-12"><a class = "btn btn-primary btn-lg" href="{{ url_for('auth.signup')}}"> Sign Up </a></div>
+                    <div class="col-lg-12"><a class = "btn btn-primary btn-lg" href="{{ url_for('auth.login')}}">  Log In </a></div>
+                </div>
+                {% endif %}
+            {% endblock %}
+        </div>
 
-
-
-{%endblock%}
+        <div class="col-lg-3 right-side">
+        <hr>
+            {% block right_content %}
+                {{ super() }}
+                SOMETHING ELSE
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}
