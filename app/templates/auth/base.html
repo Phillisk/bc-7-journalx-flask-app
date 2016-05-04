@@ -23,16 +23,22 @@
       <![endif]-->
     </head>
     <body>
-      <nav class = "navbar navbar-default">
-        <div class = "container-fluid">
-          <div class = "navbar-header">
-            <h1 class = "navbar-brand"> JournalX </h1>
+          <nav class = "navbar navbar-default">
+            <div class = "container-fluid">
+              <div class = "navbar-header">
+                <h1 class = "navbar-brand"> JournalX </h1>
+              </div>
+            </div>
+          </nav>
+          <div>
+          {% if g.user.is_authenticated %}
+          <form style="display: inline;" action="{{ url_for('auth.search') }}" method="post" name="search">
+              {{ g.search_form.hidden_tag() }} {{ g.search_form.search(size=20) }}
+              <input type="submit" value="Search">
+          </form>
+          <a href="{{ url_for('auth.logout') }}">Logout</a>
+        {% endif %}
           </div>
-        </div>
-      </nav>
-
-
-
       {% block content %}
       {% endblock %}
       <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

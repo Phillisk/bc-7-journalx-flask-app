@@ -1,6 +1,13 @@
-from app import db, lm
+from app import db, lm, app
 from werkzeug import generate_password_hash, check_password_hash
 from flask.ext.login import UserMixin
+
+import sys
+if sys.version_info >= (3, 0):
+    enable_search = False
+else:
+    enable_search = True
+    import flask.ext.whooshalchemy as whooshalchemy
 
 
 # Define a base model for other database tables to inherit
@@ -79,6 +86,8 @@ class Tag(Base):
 class Journal(Base):
     """this is the  model for journals """
     __tablename__ = 'journal'
+    __searchable__ = ['body', 'title', 'tags']
+
 
     # journal details
     id = db.Column(db.Integer, primary_key=True)
@@ -96,5 +105,9 @@ class Journal(Base):
 
     def __repr__(self):
         return '<Journal %r>' % self.title
+
+
+if enable_search:
+        whooshalchemy.whoosh_index(app, Journal)
 
 

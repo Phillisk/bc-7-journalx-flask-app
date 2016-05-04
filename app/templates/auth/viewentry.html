@@ -13,7 +13,7 @@
                 <p> {{ journal_entry.tags }} </p>
               </div>
 
-           <a href="{{ url_for('auth.edit', id = journal_entry.id) }}"> Edit </a>
+           <a href="{{ url_for('auth.update_entry', id = journal_entry.id) }}"> Edit </a>
 {#                    <td> <a href="{{ url_for('auth.delete', id=entry.id) }}"> Delete</a></td>#}
 
       {% else %}

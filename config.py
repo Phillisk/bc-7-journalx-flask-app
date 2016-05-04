@@ -8,6 +8,9 @@ DEBUG = True
 import os
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))  
 
+# define whoosh to implement search
+WHOOSH_BASE = os.path.join(BASE_DIR, 'search.db')
+MAX_SEARCH_RESULTS = 50
 # Define the database - we are working with
 # SQLite
 SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')

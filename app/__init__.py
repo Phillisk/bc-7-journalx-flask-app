@@ -2,6 +2,7 @@
 from flask import Flask, render_template
 
 # Import extensions e.g. SQLAlchemy, flask-login
+from flask.ext.bootstrap import Bootstrap
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager
 
@@ -20,6 +21,10 @@ db = SQLAlchemy(app)
 lm = LoginManager()
 lm.init_app(app)
 lm.login_view = 'auth.login'
+
+# initialise flask-bootstrap
+bootstrap = Bootstrap()
+bootstrap.init_app(app)
 
 
 # Sample HTTP error handling

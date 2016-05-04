@@ -85,5 +85,7 @@ class JournalEntryForm(Form):
         super(JournalEntryForm, self).__init__(*args, **kwargs)
 
 
+class SearchForm(Form):
+    search = StringField('search', validators=[DataRequired()])
 
 

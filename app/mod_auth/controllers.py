@@ -3,9 +3,9 @@ from flask import Blueprint, request, render_template, \
 
 from flask.ext.login import current_user, login_required, logout_user, login_user
 from app import db, lm, app
-from app.mod_auth.forms import LoginForm, SignupForm, JournalEntryForm
+from app.mod_auth.forms import LoginForm, SignupForm, JournalEntryForm, SearchForm
 from app.mod_auth.models import User, Journal, Tag
-
+from config import MAX_SEARCH_RESULTS
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
@@ -19,6 +19,8 @@ def load_user(id):
 @app.before_request
 def before_request():
     g.user = current_user
+    if g.user.is_authenticated:
+        g.search_form = SearchForm()
 
 
 # Set the route and accepted methods
@@ -83,7 +85,7 @@ def profile():
         return redirect(url_for('auth.index'))
     else:
         # get the posts for the user. use python query
-        entries = Journal.query.filter_by(user_id=user.id).order_by(Journal.date_created.desc()).all()
+        entries = Journal.query.filter_by(user_id=current_user.id).order_by(Journal.date_created.desc())
 
         # pass the posts as a context in the render_template below
         return render_template('auth/profile.html', entries=entries, user=user)
@@ -113,6 +115,7 @@ def JournalEntry():
 
 
 @mod_auth.route('/view/<int:id>', methods=['GET', 'POST'])
+@login_required
 def view_entry(id):
 
     journal_entry = Journal.query.get_or_404(id)
@@ -122,6 +125,7 @@ def view_entry(id):
 
 
 @mod_auth.route('/edit/<int:id>', methods=['GET', 'POST'])
+@login_required
 def update_entry(id):
     journal_entry = Journal.query.get_or_404(id)
     if current_user.id != journal_entry.user_id:
@@ -134,12 +138,30 @@ def update_entry(id):
         journal_entry.body = form.body.data,
         journal_entry.tags = form.tags.data,
         journal_entry.user_id = current_user.id
+
         db.session.add(journal_entry)
         db.session.commit()
+
         return redirect(url_for('auth.profile'))
-    return render_template('auth/edit.html')
+    return render_template('auth/edit.html', form=form)
 
 
+@mod_auth.route('/search/', methods=['POST'])
+@login_required
+def search():
+    if not g.search_form.validate_on_submit():
+        return redirect(url_for('auth.index'))
+    return redirect(url_for('auth.search_results', query=g.search_form.search.data))
+
+
+@mod_auth.route('/search_results/<query>')
+@login_required
+def search_results(query):
+
+    results = Journal.query.whoosh_search(query, MAX_SEARCH_RESULTS).all()
+    # import pdb; pdb.set_trace()
+
+    return render_template('auth/search_results.html', query=query, results=results)
 
 
 

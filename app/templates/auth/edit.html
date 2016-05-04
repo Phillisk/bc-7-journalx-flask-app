@@ -1,4 +1,6 @@
 {% extends "auth/base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
 
 
@@ -10,8 +12,6 @@
                   </div> <!-- /widget-header -->
 
                   <div class="widget-content">
-
-                  {{ utils.flashed_messages() }}
 
                   {{ wtf.quick_form(form) }}
 
