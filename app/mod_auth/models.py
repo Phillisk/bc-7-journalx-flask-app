@@ -94,7 +94,7 @@ class Journal(Base):
     title = db.Column(db.String(200), nullable=False)
     body = db.Column(db.String(1000), nullable=False)
     tags = db.Column(db.String(50),  db.ForeignKey('tags.tagname'), nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     user = db.relationship('User')
 
     def __init__(self, title, body, tags, user_id):
