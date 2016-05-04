@@ -19,6 +19,7 @@ db = SQLAlchemy(app)
 # define login manager
 lm = LoginManager()
 lm.init_app(app)
+lm.login_view = 'auth.login'
 
 
 # Sample HTTP error handling

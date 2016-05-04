@@ -1,21 +1,10 @@
-#Import flask dependencies
 from flask import Blueprint, request, render_template, \
-                  flash, g, session, redirect, url_for
+                  flash, g, session, redirect, url_for, abort
 
-from flask.ext.login import current_user, login_required
-
-# Import password / encryption helper tools
-
-from werkzeug import check_password_hash, generate_password_hash
-
-# Import the database object from the main app module
-from app import db, lm
-
-# Import module forms
-from app.mod_auth.forms import LoginForm, SignupForm, NewPostForm
-
-# Import module models (i.e. User)
-from app.mod_auth.models import User, Journal
+from flask.ext.login import current_user, login_required, logout_user, login_user
+from app import db, lm, app
+from app.mod_auth.forms import LoginForm, SignupForm, JournalEntryForm
+from app.mod_auth.models import User, Journal, Tag
 
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
@@ -27,24 +16,24 @@ def load_user(id):
     return User.query.get(int(id))
 
 
+@app.before_request
+def before_request():
+    g.user = current_user
+
+
 # Set the route and accepted methods
 @mod_auth.route('/login/', methods=['GET', 'POST'])
 def login():
 
-    # If sign in form is submitted
-    form = LoginForm(request.form)
+    if g.user is not None and g.user.is_authenticated:
+        return redirect(url_for('auth.profile'))
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(email=form.email.data).first()
+        login_user(user, form.remember_me.data)
+        return redirect(url_for('auth.profile'))
 
-    # Verify the sign in form
-    if request.method == 'POST':
-        if form.validate() == False:
-            return render_template('auth/login.html', form=form)
-        else:
-            session['email'] = form.email.data
-            return redirect(url_for('auth.profile'))
-         
-    elif request.method == 'GET':
-
-        return render_template("auth/login.html", form=form)
+    return render_template('auth/login.html', form=form)
 
 
 @mod_auth.route('/signup/', methods=['GET', 'POST'])
@@ -68,14 +57,12 @@ def signup():
     elif request.method == 'GET':
         return render_template('auth/signup.html', form=form)
 
-# @app.route('/logout')
-# def signout():
 
-#     if 'email' not in session:
-#     return redirect(url_for('login'))
-
-#     session.pop('email', None)
-#     return redirect(url_for('home'))
+@mod_auth.route('/logout/')
+def logout():
+    logout_user()
+    flash('You have successfully logged out.')
+    return redirect(url_for('auth.index'))
 
 
 @mod_auth.route('/index/')
@@ -90,41 +77,70 @@ def profile():
     Takes username and matches with journals:
     returns the posts by that user
     """
-    if 'email' not in session:
-        return redirect(url_for('auth.login'))
+    user = g.user
+
+    if user is None:
+        return redirect(url_for('auth.index'))
     else:
-        user = User.query.filter_by(email=session['email']).first()
+        # get the posts for the user. use python query
+        entries = Journal.query.filter_by(user_id=user.id).order_by(Journal.date_created.desc()).all()
 
-        if user is None:
-            return redirect(url_for('auth.index'))
-
-        else:
-            # get the posts for the user. use python query
-            posts = Journal.query.filter_by(user_id=user.id)
-
-            # pass the posts as a context in the render_template below
-            return render_template('auth/profile.html', posts=posts)
+        # pass the posts as a context in the render_template below
+        return render_template('auth/profile.html', entries=entries, user=user)
 
 
-@mod_auth.route('/newpost/', methods=['GET', 'POST'])
-def NewPost():
+@mod_auth.route('/journalentry/', methods=['GET', 'POST'])
+@login_required
+def JournalEntry():
     """
     view for new posts
     """
-    form = NewPostForm(request.form)
+    form = JournalEntryForm()
 
     if request.method == 'POST':
-            newpost = Journal(title=form.title.data,
-                              body=form.body.data,
-                              tags=form.tags.data,
-                              user_id=current_user._get_current_object())
-            db.session.add(newpost)
-            db.session.commit()
-
-            return redirect(url_for('auth.profile'))
+        # import pdb; pdb.set_trace()
+        newentry = Journal(title=form.title.data,
+                           body=form.body.data,
+                           tags=form.tags.data,
+                           user_id=current_user.id)
+        db.session.add(newentry)
+        db.session.commit()
+        flash('You have successfully added an entry')
+        return redirect(url_for('auth.profile'))
 
     elif request.method == 'GET':
-        return render_template('auth/newpost.html', form=form)
+        return render_template('auth/journalentry.html', form=form)
+
+
+@mod_auth.route('/view/<int:id>', methods=['GET', 'POST'])
+def view_entry(id):
+
+    journal_entry = Journal.query.get_or_404(id)
+    user =  current_user
+
+    return render_template('auth/viewentry.html', journal_entry=journal_entry, user=user)
+
+
+@mod_auth.route('/edit/<int:id>', methods=['GET', 'POST'])
+def update_entry(id):
+    journal_entry = Journal.query.get_or_404(id)
+    if current_user.id != journal_entry.user_id:
+        abort(403)
+
+    form = JournalEntryForm(obj=journal_entry)
+
+    if request.method == 'POST':
+        journal_entry.title = form.title.data,
+        journal_entry.body = form.body.data,
+        journal_entry.tags = form.tags.data,
+        journal_entry.user_id = current_user.id
+        db.session.add(journal_entry)
+        db.session.commit()
+        return redirect(url_for('auth.profile'))
+    return render_template('auth/edit.html')
+
+
+
 
 
 

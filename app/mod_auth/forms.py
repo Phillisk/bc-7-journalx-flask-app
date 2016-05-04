@@ -23,19 +23,19 @@ class LoginForm(Form):
     remember_me = BooleanField('remember_me', default=False)
     submit = SubmitField("Log In")
 
-    def __init__(self, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
-
-    def validate(self):
-        if not Form.validate(self):
-            return False
-
-        user = User.query.filter_by(email = self.email.data.lower()).first()
-        if user and user.check_password(self.password.data):
-            return True
-        else:
-            self.email.errors.append("Invalid e-mail or password")
-            return False
+    # def __init__(self, *args, **kwargs):
+    #     Form.__init__(self, *args, **kwargs)
+    #
+    # def validate(self):
+    #     if not Form.validate(self):
+    #         return False
+    #
+    #     user = User.query.filter_by(email = self.email.data.lower()).first()
+    #     if user and user.check_password(self.password.data):
+    #         return True
+    #     else:
+    #         self.email.errors.append("Invalid e-mail or password")
+    #         return False
 
 
 class SignupForm(Form):
@@ -72,9 +72,9 @@ class SignupForm(Form):
             return True
 
 
-class NewPostForm(Form):
+class JournalEntryForm(Form):
     """
-    This form will be used to create a new post
+    This form will be used to create a new journal entry
     """
     title = StringField("Title",  [DataRequired(message='Please enter the title to continue.')])
     body = StringField("Body")
@@ -82,7 +82,7 @@ class NewPostForm(Form):
     submit = SubmitField("Save")
 
     def __init__(self, *args, **kwargs):
-        Form.__init__(self, *args, **kwargs)
+        super(JournalEntryForm, self).__init__(*args, **kwargs)
 
 
 

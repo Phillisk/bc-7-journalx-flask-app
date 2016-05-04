@@ -1,10 +1,6 @@
-# Import the database object (db) from the main application module
-
-from app import db
-
-
-# use the werkzeug security options to store a salted password
+from app import db, lm
 from werkzeug import generate_password_hash, check_password_hash
+from flask.ext.login import UserMixin
 
 
 # Define a base model for other database tables to inherit
@@ -18,20 +14,17 @@ class Base(db.Model):
 
 
 # Define a User model
-class User(Base):
+class User(UserMixin, Base):
 
     __tablename__ = 'user'
 
     id = db.Column(db.Integer, primary_key=True)
-    # User Names
     firstname = db.Column(db.String(128), nullable=False)
     lastname = db.Column(db.String(128), nullable=False)
     username = db.Column(db.String(128), nullable=False)
-
-    # Identification Data: email & password
     email = db.Column(db.String(128), nullable=False, unique=True)
     password = db.Column(db.String(192), nullable=False)
-    journals = db.relationship("Journal", backref='author', lazy='dynamic', primaryjoin="User.id == Journal.user_id")
+    #journals = db.relationship("Journal", backref='author', lazy='dynamic', primaryjoin="User.id == Journal.user_id")
 
     # New instance instantiation procedure
     def __init__(self, firstname, lastname, username, email, password):
@@ -71,6 +64,10 @@ class User(Base):
     def check_password(self, password_string):
         return check_password_hash(self.password, password_string)
 
+@lm.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
 
 class Tag(Base):
     """ This model will create a table for tags"""
@@ -88,12 +85,14 @@ class Journal(Base):
     title = db.Column(db.String(200), nullable=False)
     body = db.Column(db.String(1000), nullable=False)
     tags = db.Column(db.String(50),  db.ForeignKey('tags.tagname'), nullable=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey(User.id))
+    user = db.relationship('User')
 
-    def __init__(self, title, body, tags):
+    def __init__(self, title, body, tags, user_id):
         self.title = title
         self.body = body
         self.tags = tags
+        self.user_id = user_id
 
     def __repr__(self):
         return '<Journal %r>' % self.title

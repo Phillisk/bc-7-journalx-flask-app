@@ -1,0 +1,21 @@
+{% extends "auth/base.html" %}
+{% block content %}
+
+
+            <div class="widget" style="width: 50%; margin:0 auto; margin-bottom: 50px">
+
+                  <div class="widget-header">
+                    <i class="icon-exclamation"></i>
+                    <h3>Edit Journal Entry</h3>
+                  </div> <!-- /widget-header -->
+
+                  <div class="widget-content">
+
+                  {{ utils.flashed_messages() }}
+
+                  {{ wtf.quick_form(form) }}
+
+                  </div>
+            </div>
+
+{% endblock %}

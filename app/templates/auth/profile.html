@@ -4,13 +4,18 @@
     <h2>Profile</h2>
     <h3>{{ session['email'] }}'s profile page</h3>
     <hr>
-  {% for post in posts %}
+
+  {% for entry in entries %}
   <p>
-    {{ post.author.username }} says: <b>{{ post.body }}</b>
+      <b><a href="{{ url_for('auth.view_entry',id=entry.id) }}"> {{ entry.title }} </a></b>
+      <b>{{ entry.body }}</b>
   </p>
   {% endfor %}
 
-  <a href="{{ url_for('auth.NewPost') }}"> New Post</a>
+
+  <a href="{{ url_for('auth.JournalEntry') }}"> New Post</a>
+{#   <a href="{{ url_for('auth.updateentry') }}"> New Post</a>#}
+  <a href="{{ url_for('auth.logout') }}">Logout</a>
 
   </div>
 {% endblock %}
