@@ -1,45 +1,47 @@
-    {% extends "auth/base.html" %}
+{% extends "auth/base.html" %}
 
-    {% block content %}
-     <div class = "container jumbotron">
-          <div class = "hometitle text-center">
-            <h2>New Post</h2>
-          </div>
-          <div class = "row">
-           <div class = "col-lg-4"></div>
-           <div class = "col-lg-4">
-           <div class="panel panel-body">
+{% block content %}
+    <div class="row-fluid">
+        <div class="col-lg-3">
+        </div>
+        <div id="center-side-id4" class="col-lg-6 center-side">
+            {% block center_content %}
+                <div class="page-header text-center"><h3><b>New Entry</b></h3></div>
+                <div class="panel panel-body">
+                <form action="{{ url_for('auth.JournalEntry') }}" method=post>
+                    <div class="form-group row">
+                        <label class="text-left" for="{{ form.title.name }}">
+                            {% for message in form.title.errors %}
+                                <div class="form1">{{ message }}</div>
+                            {% endfor %} {{ form.title.label }}</label>
+                        <input class="form-control" id="{{ form.title.name }}" name="{{ form.title.name }}">
 
-          <form action="{{ url_for('auth.JournalEntry') }}" method=post>
-
-
-              <div class = "form-group row">
-                <label class="text-left" for = "{{ form.title.name }}">
-                  {% for message in form.title.errors %}
-                  <div class="form1">{{ message }}</div>
-                  {% endfor %} {{form.title.label}}</label>
-                  <input class="form-control" id ="{{ form.title.name }}" name = "{{ form.title.name }}">
-
-              </div>
-              <div class = "form-group row">
-                <label class="text-left" for = "{{ form.body.name }}">
-                    {{form.body.label}}</label>
-                  <textarea class="form-control"  id ="{{ form.body.name }}" name = "{{ form.body.name }}">
+                    </div>
+                    <div class="form-group row">
+                        <label class="text-left" for="{{ form.body.name }}">
+                            {{ form.body.label }}</label>
+                        <textarea class="form-control" id="{{ form.body.name }}" name="{{ form.body.name }}">
                       </textarea>
 
-              </div>
-            <div class = "form-group row">
-                <label class="text-left" for = "{{ form.tags.name }}">
-                    {{form.tags.label}}</label>
-                  <input class="form-control"  id ="{{ form.tags.name }}" name = "{{ form.tags.name }}">
-                      </input>
+                    </div>
+                    <div class="form-group row">
+                        <label class="text-left" for="{{ form.tags.name }}">
+                            {{ form.tags.label }}</label>
+                        <input class="form-control" id="{{ form.tags.name }}" name="{{ form.tags.name }}">
+                        </input>
 
-              </div>
-              {{ form.submit }}
-          </form>
-          </div>
-           </div>
-              <div class = "col-lg-4"></div>
+                    </div>
+                {{ form.submit }}
+{#                    <input class="btn btn-success btn-group-justified" id="submit" name="submit" type="submit" value="Save"#}
+                </form>
+                </div>
+            {% endblock %}
         </div>
+
+        <div class="col-lg-3">
+            {% block right_content %}
+                {{ super() }}
+            {% endblock %}
         </div>
-    {% endblock %}
+    </div>
+{% endblock %}
