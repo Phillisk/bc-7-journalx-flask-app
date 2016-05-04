@@ -3,8 +3,8 @@
 {% block content %}
 
 <div class = "container jumbotron">
-  <div class = "hometitle text-center">
-    <h3> Sign up </h1>
+    <div class = "hometitle text-center">
+    <h2> Sign up </h2>
     </div>
     <div class = "row">
       <div class = "col-lg-4"></div>
@@ -57,12 +57,12 @@
                 {% endfor %}
                 {{form.password.label}}
               </label>
-              <input class="form-control" id = "{{ form.password.name }}" name="{{form.password.name}}">
+              <input class="form-control" type = "password"  id = "{{ form.password.name }}" name="{{form.password.name}}">
             </div>
             <div class = "form-group row">
               <label for = "{{ form.confirmpassword.name }}">{{form.confirmpassword.label}}
               </label>
-              <input class="form-control" id = "{{ form.confirmpassword.name }}" name="{{form.confirmpassword.name}}">
+              <input class="form-control" type = "password"  id = "{{ form.confirmpassword.name }}" name="{{form.confirmpassword.name}}">
             </div>
 
             {{ form.submit }}
@@ -73,6 +73,7 @@
 
     </div>
   </div>
+  
 
 
   {% endblock %}

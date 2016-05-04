@@ -1,0 +1,16 @@
+{% extends "auth/base.html" %}
+{% block content %}
+  <div class="jumbotron">
+    <h2>Profile</h2>
+    <h3>{{ session['email'] }}'s profile page</h3>
+    <hr>
+  {% for post in posts %}
+  <p>
+    {{ post.author.username }} says: <b>{{ post.body }}</b>
+  </p>
+  {% endfor %}
+
+  <a href="{{ url_for('auth.NewPost') }}"> New Post</a>
+
+  </div>
+{% endblock %}
