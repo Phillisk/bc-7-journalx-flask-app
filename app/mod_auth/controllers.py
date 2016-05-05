@@ -146,6 +146,27 @@ def update_entry(id):
     return render_template('auth/edit.html', form=form)
 
 
+@mod_auth.route('/delete/<int:id>', methods=['GET', 'POST'])
+@login_required
+def delete(id):
+    journal_entry = Journal.query.get_or_404(id)
+    if current_user.id != journal_entry.user_id:
+        abort(403)
+
+    db.session.delete(journal_entry)
+    return render_template('auth/delete.html', journal_entry=journal_entry)
+
+@mod_auth.route('/deleting/<int:id>', methods=['GET', 'POST'])
+@login_required
+def deleting(id):
+    journal_entry = Journal.query.get_or_404(id)
+    db.session.delete(journal_entry)
+    db.session.commit()
+    return redirect(url_for('auth.profile'))
+    # return render_template('auth/delete.html', journal_entry=journal_entry)
+
+
+
 @mod_auth.route('/search/', methods=['POST'])
 @login_required
 def search():
