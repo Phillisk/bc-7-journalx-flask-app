@@ -132,11 +132,11 @@ def update_entry(id):
         abort(403)
 
     form = JournalEntryForm(obj=journal_entry)
-
+    # import pdb; pdb.set_trace()
     if request.method == 'POST':
-        journal_entry.title = form.title.data,
-        journal_entry.body = form.body.data,
-        journal_entry.tags = form.tags.data,
+        journal_entry.title = form.title.data
+        journal_entry.body = form.body.data
+        journal_entry.tags = form.tags.data
         journal_entry.user_id = current_user.id
 
         db.session.add(journal_entry)
