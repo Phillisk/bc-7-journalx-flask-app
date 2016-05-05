@@ -14,8 +14,8 @@
                         </div>
                         <div class="btn-group btn-group-justified">
                             <a class="btn btn-success" href="{{ url_for('auth.update_entry', id = journal_entry.id) }}"> Edit </a>
-{#                            <a class="btn-danger" href="{{ url_for('auth.delete', id=journal_entry.id) }}"> Delete</a>#}
-                            <a class="btn btn-danger" href="#"> Delete</a>
+                            <a class="btn btn-danger" href="{{ url_for('auth.delete', id=journal_entry.id) }}"> Delete</a>
+{#                           <a class="btn btn-danger" href="#"> Delete</a>#}
                         </div>
                     {% else %}
                     {% endif %}
