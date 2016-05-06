@@ -43,17 +43,16 @@ def JournalEntry():
     form = JournalEntryForm()
 
     if request.method == 'POST':
-            if form.validate_on_submit():
-                newentry = Journal(title=form.title.data,
-                                   body=form.body.data,
-                                   tags=form.tags.data,
-                                   user_id=current_user.id)
+          newentry = Journal(title=form.title.data,
+                             body=form.body.data,
+                             tags=form.tags.data,
+                             user_id=current_user.id)
 
-                db.session.add(newentry)
-                db.session.commit()
-                flash('You have successfully added an entry')
-                return redirect(url_for('main.profile'))
-            return render_template('main/journalentry.html', form=form)
+          db.session.add(newentry)
+          db.session.commit()
+          flash('You have successfully added an entry')
+          return redirect(url_for('main.profile'))
+      
 
 
     elif request.method == 'GET':
