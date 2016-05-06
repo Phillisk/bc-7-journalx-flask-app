@@ -4,6 +4,7 @@
         <div class="col-lg-3 left-side">
             {% block left_content %}
                 <h3>{{ user.username }}'s profile page</h3>
+
                 <ul class="list-group">
                     <li class="list-group-item"><b>First Name: </b>{{ user.firstname|title }}</li>
                     <li class="list-group-item"><b>Last Name: </b>{{ user.lastname|title }}</li>
@@ -14,7 +15,7 @@
         <div id="center-side-id4" class="col-lg-6 center-side">
             {% block center_content %}
                 <div class="btn-group">
-                    <a class="btn btn-danger btn-group-justified" href="{{ url_for('auth.JournalEntry') }}"> New Post</a>
+                    <a class="btn btn-primary btn-group-justified" href="{{ url_for('auth.JournalEntry') }}"> New Entry</a>
                 </div>
                 {% for entry in entries %}
                     <div class="panel panel-success">
