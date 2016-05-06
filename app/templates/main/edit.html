@@ -1,0 +1,24 @@
+{% extends "main/base.html" %}
+
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+
+    <div class="row-fluid">
+        <div class="col-lg-3">
+        </div>
+        <div id="center-side-id4" class="col-lg-6 center-side">
+        <div class="page-header"><h3>Edit {{ form.title.data }}</h3></div>
+            {% block center_content %}
+                <div class="panel panel-body">
+                    {{ wtf.quick_form(form) }}
+                </div>
+            {% endblock %}
+        </div>
+
+        <div class="col-lg-3">
+            {% block right_content %}
+                {{ super() }}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

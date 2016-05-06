@@ -1,0 +1,30 @@
+{% extends "main/base.html" %}
+{% block content %}
+
+    <div class="row-fluid">
+            <div class="col-lg-3">
+            </div>
+            <div id="center-side-id4" class="col-lg-6 center-side">
+                {% block center_content %}
+                    {% if journal_entry %}
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"><h3><b>{{ journal_entry.title|upper }}</b></h3></div>
+                            <div id="panel-light" class="panel-body">{{ journal_entry.body }}</div>
+                            <div class="panel-footer"><i><small>{{ journal_entry.tags }}</small></i></div>
+                        </div>
+                        <div class="btn-group btn-group-justified">
+                            <a class="btn btn-success" href="{{ url_for('main.update_entry', id = journal_entry.id) }}"> Edit </a>
+                            <a class="btn btn-danger" href="{{ url_for('main.delete', id=journal_entry.id) }}"> Delete</a>
+                        </div>
+                    {% else %}
+                    {% endif %}
+                {% endblock %}
+            </div>
+
+            <div class="col-lg-3">
+                {% block right_content %}
+                    {{ super() }}
+                {% endblock %}
+            </div>
+        </div>
+{% endblock %}

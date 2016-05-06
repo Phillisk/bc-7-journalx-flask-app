@@ -1,0 +1,81 @@
+{% extends "main/base.html" %}
+
+{% block content %}
+    <div class="row-fluid">
+        <div class="col-lg-3">
+
+        </div>
+        <div id="center-side-id2" class="col-lg-6 center-side">
+            {% block center_content %}
+                <div class="panel panel-body">
+                    <form action="{{ url_for('auth.signup') }}" method=post>
+                        {{ form.hidden_tag() }}
+                        <div class="form-group row">
+                        <label class="text-left" for="{{ form.firstname.name }}">
+                            {% for message in form.firstname.errors %}
+                                <div class="form1">{{ message }}</div>
+                            {% endfor %} {{ form.firstname.label }}</label>
+                        <input class="form-control" id="{{ form.firstname.name }}" name="{{ form.firstname.name }}">
+
+                    </div>
+                    <div class="form-group row">
+                        <label class="text-left" for="{{ form.lastname.name }}">
+
+                            {% for message in form.lastname.errors %}
+                                <div class="form1">{{ message }}</div>
+                            {% endfor %}
+                            {{ form.lastname.label }}
+                        </label>
+
+                        <input class="form-control" id="{{ form.lastname.name }}" name="{{ form.lastname.name }}">
+                    </div>
+                    <div class="form-group row">
+                        <label for="{{ form.username.name }}">
+
+                            {% for message in form.username.errors %}
+                                <div class="form1">{{ message }}</div>
+                            {% endfor %}
+                            {{ form.username.label }}
+                        </label>
+                        <input class="form-control" id="{{ form.username.name }}" name="{{ form.username.name }}">
+                    </div>
+                    <div class="form-group row">
+                        <label class="text-left" for="{{ form.email.name }}">
+                            {% for message in form.email.errors %}
+                                <div class="form1">{{ message }}</div>
+                            {% endfor %}{{ form.email.label }}
+                        </label>
+                        <input class="form-control" class="text-right" id="{{ form.email.name }}"
+                               name="{{ form.email.name }}">
+                    </div>
+                    <div class="form-group row">
+                        <label for="{{ form.password.name }}">
+                            {% for message in form.password.errors %}
+                                <div class="form1">{{ message }}</div>
+                            {% endfor %}
+                            {{ form.password.label }}
+                        </label>
+                        <input class="form-control" type="password" id="{{ form.password.name }}"
+                               name="{{ form.password.name }}">
+                    </div>
+                    <div class="form-group row">
+                        <label for="{{ form.confirmpassword.name }}">{{ form.confirmpassword.label }}
+                        </label>
+                        <input class="form-control" type="password" id="{{ form.confirmpassword.name }}"
+                               name="{{ form.confirmpassword.name }}">
+                    </div>
+
+                    <input class="btn btn-success btn-group-justified" id="submit" name="submit" type="submit" value="Create account">
+
+                    </form>
+                </div>
+            {% endblock %}
+        </div>
+
+        <div class="col-lg-3">
+            {% block right_content %}
+                {{ super() }}
+            {% endblock %}
+        </div>
+    </div>
+{% endblock %}

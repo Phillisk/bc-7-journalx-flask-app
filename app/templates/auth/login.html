@@ -1,50 +1,44 @@
-{% macro render_field(field, placeholder=None) %}
-{% if field.errors %}
-<div>
-{% elif field.flags.error %}
-<div>
-{% else %}
-<div>
-{% endif %}
-    {% set css_class = 'form-control ' + kwargs.pop('class', '') %}
-    {{ field(class=css_class, placeholder=placeholder, **kwargs) }}
-</div>
-{% endmacro %}
+{% extends "main/base.html" %}
 
-<div>
-  <div>
-    <legend>Sign in</legend>
-    {% with errors = get_flashed_messages(category_filter=["error"]) %}
-    {% if errors %}
-    <div>
-    {% for error in errors %}
-    {{ error }}<br>
-    {% endfor %}
-    </div>
-    {% endif %}
-    {% endwith %}
+{% block content %}
+    <div class="row-fluid">
+        <div class="col-lg-3"></div>
+        <div id="center-side-id3" class="col-lg-6 center-side">
+            {% block center_content %}
+                <div class="panel panel-body">
+                    <form action="{{ url_for('auth.login') }}" method=post>
+                        {{ form.hidden_tag() }}
 
-    {% if form.errors %}
-    <div>
-    {% for field, error in form.errors.items() %}
-    {% for e in error %}
-    {{ e }}<br>
-    {% endfor %}
-    {% endfor %}
+                        <div class="form-group row">
+                            <label class="text-left" for="{{ form.email.name }}">
+                                {% for message in form.email.errors %}
+                                    <div class="form1">{{ message }}</div>
+                                {% endfor %} {{ form.email.label }}</label>
+                            <input class="form-control" id="{{ form.email.name }}" name="{{ form.email.name }}">
+
+                        </div>
+                        <div class="form-group row">
+                            <label class="text-left" for="{{ form.password.name }}">
+                                {% for message in form.password.errors %}
+                                    <div class="form1">{{ message }}</div>
+                                {% endfor %} {{ form.password.label }}</label>
+                            <input class="form-control" type="password" id="{{ form.password.name }}"
+                                   name="{{ form.password.name }}">
+
+                        </div>
+                        <div>
+                            <p>{{ form.remember_me }} Remember Me</p>
+                        </div>
+                        <input class="btn btn-success btn-group-justified" id="submit" name="submit" type="submit" value="Log In">
+                    </form>
+                </div>
+            {% endblock %}
+        </div>
+
+        <div class="col-lg-3">
+            {% block right_content %}
+                {{ super() }}
+            {% endblock %}
+        </div>
     </div>
-    {% endif %}
-    <form method="POST" action="." accept-charset="UTF-8" role="form">
-      {{ form.csrf_token }}
-      {{ render_field(form.email, placeholder="Your Email Address",
-                                  autofocus="") }}
-      {{ render_field(form.password, placeholder="Password") }}
-      <div>
-      <label>
-        <input type="checkbox" name="remember" value="1"> Remember Me
-      </label>
-      <a role="button" href="">Forgot your password?</a><span class="clearfix"></span>
-      </div>
-      <button type="submit" name="submit">Sign in</button>
-    </form>  
-  </div>
-</div>
+{% endblock %}
