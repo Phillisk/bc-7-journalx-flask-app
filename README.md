@@ -19,10 +19,7 @@ The application is able to:
 
 ## Installation
 
-You may also install the app on your local machine.
-
-## Prerequisites 
-
+You may install the app on your local machine.
 You should have a working installation of Python 2.7 as well as pip. It is recommended that you use a virtual environment for this project.
 
 ### To install the app:
