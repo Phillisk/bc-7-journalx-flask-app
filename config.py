@@ -2,7 +2,7 @@
 This file will contain configurations for the application
 """
 # Statement for enabling the development environment
-DEBUG = True
+DEBUG = False
 
 class ProductionConfig(Config):
     ''' Config for production '''
