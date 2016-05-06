@@ -6,15 +6,15 @@ This is an online private journal.
 
 The application is able to:
 
-* As a user I should be able to signup / login
-* As a user, I should be able to make a journal entry and save:
+* A user can signup / login
+* A user can make a journal entry and save:
         * Date:
         * Journal (body):
         * Tags:
-* As a user, I should be able to view all my journal entries.
-* As a user, I should be able to edit/update my old journals
-* As a user, I should be able to search through all my journals by key-words (tags) or text within the journal.
-* Journal listing should be in the order of journal journal date.
+* A user can view all my journal entries.
+* A user can to edit/update my old journals
+* A user can search through all my journals by key-words (tags) or text within the journal.
+* Journal listing are in the order of journal journal date.
 
 
 ## Installation
