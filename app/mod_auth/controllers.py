@@ -100,11 +100,11 @@ def JournalEntry():
     form = JournalEntryForm()
 
     if request.method == 'POST':
-        # import pdb; pdb.set_trace()
         newentry = Journal(title=form.title.data,
                            body=form.body.data,
                            tags=form.tags.data,
                            user_id=current_user.id)
+
         db.session.add(newentry)
         db.session.commit()
         flash('You have successfully added an entry')
@@ -132,7 +132,7 @@ def update_entry(id):
         abort(403)
 
     form = JournalEntryForm(obj=journal_entry)
-    # import pdb; pdb.set_trace()
+
     if request.method == 'POST':
         journal_entry.title = form.title.data
         journal_entry.body = form.body.data
