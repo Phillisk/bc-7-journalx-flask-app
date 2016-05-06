@@ -2,12 +2,8 @@
 This file will contain configurations for the application
 """
 # Statement for enabling the development environment
-DEBUG = False
+DEBUG = True
 
-class ProductionConfig(Config):
-    ''' Config for production '''
-    PORT = int(os.environ.get("PORT", 5000))
-    HOST = '0.0.0.0'
 
 # Define the application directory
 import os
