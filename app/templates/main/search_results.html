@@ -1,4 +1,4 @@
-{% extends "auth/base.html" %}
+{% extends "main/base.html" %}
 
 {% block content %}
 
@@ -6,7 +6,7 @@
 
     {% for entry in results %}
         <div class="panel panel-success">
-            <div class="panel-heading"><a href="{{ url_for('auth.view_entry',id=entry.id) }}"><b>{{ entry.title|upper }}</b></a></div>
+            <div class="panel-heading"><a href="{{ url_for('main.view_entry',id=entry.id) }}"><b>{{ entry.title|upper }}</b></a></div>
             <div class="panel-body">{{ entry.body|truncate }}</div>
             <div class="panel-footer"><i><small>{{ entry.tags }}</small></i></div>
         </div>

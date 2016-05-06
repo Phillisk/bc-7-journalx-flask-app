@@ -1,4 +1,4 @@
-{% extends "auth/base.html" %}
+{% extends "main/base.html" %}
 
 {% block content %}
 
@@ -9,8 +9,8 @@
         <div class="page-header"><h3>Delete Journal Entry</h3></div>
             {% block center_content %}
                 <h3> Are you sure you want to delete your journal entry? {{ journal_entry.title }}</h3>
-                    <a class="btn btn-success" href="{{ url_for('auth.deleting', id = journal_entry.id) }}"> Yes </a>
-                    <a class="btn btn-danger" href="{{ url_for('auth.view_entry', id=journal_entry.id) }}"> Cancel</a>
+                    <a class="btn btn-success" href="{{ url_for('main.deleting', id = journal_entry.id) }}"> Yes </a>
+                    <a class="btn btn-danger" href="{{ url_for('main.view_entry', id=journal_entry.id) }}"> Cancel</a>
 {#                            <a class="btn btn-danger" href="#"> Delete</a>#}
 
             {% endblock %}

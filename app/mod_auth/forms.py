@@ -2,13 +2,13 @@
 from flask.ext.wtf import Form # , RecaptchaField
 
 # Import Form elements such as StringField and BooleanField (optional)
-from wtforms import PasswordField, BooleanField, SubmitField, validators, ValidationError, StringField
+from wtforms import PasswordField, BooleanField, SubmitField, validators, StringField
 
 # Import Form validators
-from wtforms.validators import Email, EqualTo, DataRequired
+from wtforms.validators import Email, DataRequired
 
 # import models
-from app.mod_auth.models import User
+from app.mod_main.models import User
 
 
 # Define the login form (WTForms)
@@ -22,20 +22,6 @@ class LoginForm(Form):
     password = PasswordField('Password', [DataRequired(message='Must provide a password.')])
     remember_me = BooleanField('remember_me', default=False)
     submit = SubmitField("Log In")
-
-    # def __init__(self, *args, **kwargs):
-    #     Form.__init__(self, *args, **kwargs)
-    #
-    # def validate(self):
-    #     if not Form.validate(self):
-    #         return False
-    #
-    #     user = User.query.filter_by(email = self.email.data.lower()).first()
-    #     if user and user.check_password(self.password.data):
-    #         return True
-    #     else:
-    #         self.email.errors.append("Invalid e-mail or password")
-    #         return False
 
 
 class SignupForm(Form):
@@ -71,21 +57,5 @@ class SignupForm(Form):
         else:
             return True
 
-
-class JournalEntryForm(Form):
-    """
-    This form will be used to create a new journal entry
-    """
-    title = StringField("Title",  [DataRequired(message='Please enter the title to continue.')])
-    body = StringField("Body")
-    tags = StringField("Tags")
-    submit = SubmitField("Save")
-
-    def __init__(self, *args, **kwargs):
-        super(JournalEntryForm, self).__init__(*args, **kwargs)
-
-
-class SearchForm(Form):
-    search = StringField('search', validators=[DataRequired()])
 
 

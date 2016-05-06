@@ -1,4 +1,4 @@
-{% extends "auth/base.html" %}
+{% extends "main/base.html" %}
 {% block content %}
     <div class="row-fluid">
         <div class="col-lg-3 left-side">
@@ -15,11 +15,11 @@
         <div id="center-side-id4" class="col-lg-6 center-side">
             {% block center_content %}
                 <div class="btn-group">
-                    <a class="btn btn-primary btn-group-justified" href="{{ url_for('auth.JournalEntry') }}"> New Entry</a>
+                    <a class="btn btn-primary btn-group-justified" href="{{ url_for('main.JournalEntry') }}"> New Entry</a>
                 </div>
                 {% for entry in entries %}
                     <div class="panel panel-success">
-                        <div class="panel-heading"><a href="{{ url_for('auth.view_entry',id=entry.id) }}"><b>{{ entry.title|upper }}</b></a></div>
+                        <div class="panel-heading"><a href="{{ url_for('main.view_entry',id=entry.id) }}"><b>{{ entry.title|upper }}</b></a></div>
                         <div class="panel-body">{{ entry.body|truncate }}</div>
                         <div class="panel-footer"><i><small>{{ entry.tags }}</small></i></div>
                     </div>
