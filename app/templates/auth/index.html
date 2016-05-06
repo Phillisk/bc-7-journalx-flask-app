@@ -3,7 +3,7 @@
 {% block content %}
     <div class="row-fluid">
         <div class="col-lg-3 left-side">
-        <hr>
+            <hr>
             {% block left_content %}
                 {{ super() }}
             {% endblock %}
@@ -12,21 +12,29 @@
             {% block center_content %}
                 <div class="center-header">
                     <h1>JournalX</h1>
+                    <em>Memories! Secrets! Privacy!</em>
+                    <h2>JournalX is an online private journal that will provide you with a safe and secure environment
+                        to write your heart out. No one else have access to your Journal only you!</h2>
                 </div>
                 {% if not g.user.is_authenticated %}
-                <div class="row">
-                    <div class="col-lg-12"><a class = "btn btn-primary btn-lg" href="{{ url_for('auth.signup')}}"> Sign Up </a></div>
-                    <div class="col-lg-12"><a class = "btn btn-primary btn-lg" href="{{ url_for('auth.login')}}">  Log In </a></div>
-                </div>
+                    <div class="row">
+                        <h3>Existing account? Login in below</h3>
+                        <div class="col-lg-12"><a class="btn btn-primary btn-lg" href="{{ url_for('auth.login') }}"> Log
+                            In </a></div>
+                    </div>
+
+                    <h3>Don't have an existing account? Sign Up below and get started!</h3>
+                    <div class="col-lg-12"><a class="btn btn-primary btn-lg" href="{{ url_for('auth.signup') }}"> Sign
+                        Up </a></div>
+
                 {% endif %}
             {% endblock %}
         </div>
 
         <div class="col-lg-3 right-side">
-        <hr>
+            <hr>
             {% block right_content %}
                 {{ super() }}
-                SOMETHING ELSE
             {% endblock %}
         </div>
     </div>
